@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <!-- Configurações básicas da página -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CityBase - Novo Registro</title>
+    
+    <!-- Carrega o framework Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Carrega a fonte REM do Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=REM:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Configuração personalizada do Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['REM', 'sans-serif'], // Define REM como fonte padrão
+                    },
+                    colors: {
+                        primary: '#4F46E5', // Cor primária (índigo)
+                        danger: '#DC2626',  // Cor para erros/alertas
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- CSS personalizado -->
+    <style>
+        /* Estilo para campos inválidos */
+        .invalid {
+            border-color: #DC2626;
+            box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+        }
+        
+        /* Animação de loading */
+        .spinner {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans min-h-screen flex flex-col">
+    <!-- Cabeçalho da aplicação -->
+    <header class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <!-- Logo e nome do site -->
+            <div class="flex items-center space-x-3">
+                <div class="bg-primary text-white p-2 rounded-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    </svg>
+                </div>
+                <h1 class="text-xl font-bold text-gray-800">CityBase</h1>
+            </div>
+            
+            <!-- Link para voltar à página principal -->
+            <a href="index.html" class="text-primary hover:underline">Voltar</a>
+        </div>
+    </header>
+
+    <!-- Conteúdo principal do formulário -->
+    <main class="flex-grow container mx-auto px-4 py-8">
+        <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-sm overflow-hidden">
+            <!-- Cabeçalho do formulário -->
+            <div class="bg-primary px-6 py-4">
+                <h2 class="text-xl font-bold text-white">Registrar Novo Problema</h2>
+            </div>
+            
+            <!-- Formulário propriamente dito -->
+            <form id="registroForm" class="p-6 space-y-6">
+                <!-- Seção: Dados do Solicitante -->
+                <fieldset class="space-y-4 border-b pb-6">
+                    <legend class="text-lg font-semibold text-gray-700">Dados do Solicitante</legend>
+                    
+                    <!-- Campo: Nome Completo -->
+                    <div>
+                        <label for="nome" class="block text-sm font-medium text-gray-700 mb-1">Nome Completo*</label>
+                        <input type="text" id="nome" name="nome" required
+                            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                            placeholder="Digite seu nome completo">
+                        <p class="mt-1 text-sm text-danger hidden" id="nomeError">Campo obrigatório</p>
+                    </div>
+                    
+                    <!-- Campo: E-mail -->
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">E-mail*</label>
+                        <input type="email" id="email" name="email" required
+                            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                            placeholder="seu@email.com">
+                        <p class="mt-1 text-sm text-danger hidden" id="emailError">Informe um e-mail válido</p>
+                    </div>
+                    
+                    <!-- Campo: Telefone -->
+                    <div>
+                        <label for="telefone" class="block text-sm font-medium text-gray-700 mb-1">Telefone</label>
+                        <input type="tel" id="telefone" name="telefone"
+                            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                            placeholder="(00) 00000-0000">
+                    </div>
+                </fieldset>
+                
+                <!-- Seção: Detalhes do Problema -->
+                <fieldset class="space-y-4 border-b pb-6">
+                    <legend class="text-lg font-semibold text-gray-700">Detalhes do Problema</legend>
+                    
+                    <!-- Campo: Tipo de Problema -->
+                    <div>
+                        <label for="tipo" class="block text-sm font-medium text-gray-700 mb-1">Tipo de Problema*</label>
+                        <select id="tipo" name="tipo" required
+                            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                            <option value="">Selecione...</option>
+                            <option value="buraco">Buraco na via</option>
+                            <option value="iluminacao">Iluminação pública</option>
+                            <option value="lixo">Acúmulo de lixo</option>
+                            <option value="agua">Vazamento de água</option>
+                            <option value="outros">Outros</option>
+                        </select>
+                        <p class="mt-1 text-sm text-danger hidden" id="tipoError">Selecione um tipo</p>
+                    </div>
+                    
+                    <!-- Campo: Localização -->
+                    <div>
+                        <label for="localizacao" class="block text-sm font-medium text-gray-700 mb-1">Localização*</label>
+                        <input type="text" id="localizacao" name="localizacao" required
+                            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                            placeholder="Rua, número, bairro">
+                        <p class="mt-1 text-sm text-gray-500">Exemplo: Avenida Principal, 100 - Centro</p>
+                        <p class="mt-1 text-sm text-danger hidden" id="localizacaoError">Campo obrigatório</p>
+                    </div>
+                    
+                    <!-- Campo: Descrição -->
+                    <div>
+                        <label for="descricao" class="block text-sm font-medium text-gray-700 mb-1">Descrição Detalhada*</label>
+                        <textarea id="descricao" name="descricao" rows="4" required
+                            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                            placeholder="Descreva o problema com detalhes"></textarea>
+                        <p class="mt-1 text-sm text-danger hidden" id="descricaoError">Descreva o problema</p>
+                    </div>
+                    
+                    <!-- Campo: Anexar Fotos -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Anexar Fotos (Opcional)</label>
+                        <div class="mt-1 flex items-center">
+                            <label for="fotos" class="cursor-pointer bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg border border-gray-300">
+                                <span class="text-sm">Selecionar arquivos</span>
+                                <input type="file" id="fotos" name="fotos" accept="image/*" multiple class="sr-only">
+                            </label>
+                            <span id="fileName" class="ml-2 text-sm text-gray-500">Nenhum arquivo selecionado</span>
+                        </div>
+                        <div id="preview" class="mt-2 flex flex-wrap gap-2 hidden"></div>
+                    </div>
+                </fieldset>
+                
+                <!-- Seção de ações do formulário -->
+                <div class="flex justify-end space-x-3">
+                    <button type="reset" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+                        Limpar
+                    </button>
+                    <button type="submit" id="submitBtn" class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+                        Enviar Registro
+                    </button>
+                    <button type="button" id="loadingBtn" class="px-6 py-2 bg-primary text-white rounded-lg hidden" disabled>
+                        <div class="flex items-center">
+                            <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white spinner" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Enviando...
+                        </div>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Rodapé da aplicação -->
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p>© 2024 CityBase - Plataforma Colaborativa</p>
+        </div>
+    </footer>
+
+    <!-- Scripts JavaScript -->
+    <script>
+        // Quando o DOM estiver completamente carregado
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('registroForm');
+            const fileInput = document.getElementById('fotos');
+            const fileName = document.getElementById('fileName');
+            const preview = document.getElementById('preview');
+            const submitBtn = document.getElementById('submitBtn');
+            const loadingBtn = document.getElementById('loadingBtn');
+            
+            // Mostrar preview das imagens selecionadas
+            fileInput.addEventListener('change', function(e) {
+                const files = e.target.files;
+                if (files.length > 0) {
+                    fileName.textContent = `${files.length} arquivo(s) selecionado(s)`;
+                    preview.innerHTML = '';
+                    preview.classList.remove('hidden');
+                    
+                    // Limitar a 3 imagens para preview
+                    const maxFiles = Math.min(files.length, 3);
+                    for (let i = 0; i < maxFiles; i++) {
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            const img = document.createElement('img');
+                            img.src = event.target.result;
+                            img.className = 'h-20 object-cover rounded border';
+                            preview.appendChild(img);
+                        }
+                        reader.readAsDataURL(files[i]);
+                    }
+                } else {
+                    fileName.textContent = 'Nenhum arquivo selecionado';
+                    preview.classList.add('hidden');
+                }
+            });
+            
+            // Validação do formulário ao enviar
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validação básica dos campos
+                let isValid = true;
+                const requiredFields = ['nome', 'email', 'tipo', 'localizacao', 'descricao'];
+                
+                requiredFields.forEach(fieldId => {
+                    const field = document.getElementById(fieldId);
+                    const errorElement = document.getElementById(`${fieldId}Error`);
+                    
+                    if (!field.value.trim()) {
+                        field.classList.add('invalid');
+                        errorElement.classList.remove('hidden');
+                        isValid = false;
+                    } else {
+                        field.classList.remove('invalid');
+                        errorElement.classList.add('hidden');
+                    }
+                });
+                
+                // Validação específica para e-mail
+                const emailField = document.getElementById('email');
+                const emailError = document.getElementById('emailError');
+                if (emailField.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailField.value)) {
+                    emailField.classList.add('invalid');
+                    emailError.textContent = 'Informe um e-mail válido';
+                    emailError.classList.remove('hidden');
+                    isValid = false;
+                }
+                
+                // Se o formulário for válido, simula o envio
+                if (isValid) {
+                    submitBtn.classList.add('hidden');
+                    loadingBtn.classList.remove('hidden');
+                    
+                    // Simulação de envio assíncrono (substituir por fetch/axios em produção)
+                    setTimeout(() => {
+                        alert('Registro enviado com sucesso!');
+                        form.reset();
+                        preview.innerHTML = '';
+                        preview.classList.add('hidden');
+                        fileName.textContent = 'Nenhum arquivo selecionado';
+                        loadingBtn.classList.add('hidden');
+                        submitBtn.classList.remove('hidden');
+                    }, 1500);
+                }
+            });
+            
+            // Remover estilos de erro ao digitar
+            form.querySelectorAll('input, textarea, select').forEach(element => {
+                element.addEventListener('input', function() {
+                    if (this.classList.contains('invalid')) {
+                        this.classList.remove('invalid');
+                        const errorElement = document.getElementById(`${this.id}Error`);
+                        if (errorElement) errorElement.classList.add('hidden');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
