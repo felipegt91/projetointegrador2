@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CityBase | Detalhes do Registro</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,17 +16,29 @@
     <!--Cabeçalho simplificado-->
     <header class="bg-white shadow-md">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
+            <a href="index.html" class="flex items-center space-x-3"> <!-- Link adicionado aqui -->
                 <div class="bg-indigo-600 text-white p-2 rounded-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
                     </svg>
                 </div>
                 <h1 class="text-xl font-bold text-gray-800">CityBase</h1>
+            </a>
+            
+            <nav class="hidden md:flex space-x-6">
+                <a href="novo-registro.html" class="font-medium hover:text-indigo-600">Reportar</a>
+                <a href="index.html#status" class="font-medium hover:text-indigo-600">Registros</a>
+                <a href="index.html#map" class="font-medium hover:text-indigo-600">Mapa</a>
+            </nav>
+            
+            <div class="flex items-center space-x-4">
+                <a href="login.html" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">Login</a>
+                <a href="cadastro.html" class="font-medium text-indigo-600 hover:underline">Cadastre-se</a>
             </div>
-            <a href="index.html" class="text-primary hover:underline">Voltar</a>
         </div>
     </header>
+    
+    
 
     <main class="container mx-auto px-4 py-8">
         <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-sm p-6 md:p-8">
@@ -78,12 +90,12 @@
     <!--Rodapé do site-->
     <footer class="bg-gray-800 text-white py-12">
         <div class="container mx-auto px-4 text-center">
-            <p>© 2024 CityBase</p>
+            <p>© 2025 CityBase</p>
         </div>
     </footer>
 
     <!--Script necessário para o mapa-->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Cálculo de dias desde o registro
@@ -101,7 +113,8 @@
             // Configuração inicial do mapa
             const detailMap = L.map('detail-map').setView([lat, lng], 17);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                maxZoom: 19, // Evita carregar tiles desnecessários
+                attribution: '...'
             }).addTo(detailMap);
             
             // Marcador do registro no mapa

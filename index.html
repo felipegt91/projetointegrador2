@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CityBase | Registro de Problemas</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,24 +30,31 @@
     </script>
 </head>
 <body class="bg-gray-50 font-sans">
+
     <!--Cabeçalho estilizado com logo e nome do site-->
     <header class="bg-white shadow-md">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
+            <a href="index.html" class="flex items-center space-x-3"> <!-- Link adicionado aqui -->
                 <div class="bg-primary text-white p-2 rounded-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                     </svg>
                 </div>
                 <h1 class="text-xl font-bold text-gray-800">CityBase</h1>
+            </a>
+            
+            <div class="hidden md:flex items-center justify-between w-full ml-6">
+                <nav class="flex space-x-6">
+                    <a href="novo-registro.html" class="font-medium hover:text-primary">Reportar</a>
+                    <a href="#status" class="font-medium hover:text-primary">Registros</a>
+                    <a href="#map" class="font-medium hover:text-primary">Mapa</a>
+                </nav>
+                <div class="flex items-center space-x-4 ml-6">
+                    <a href="login.html" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-indigo-600 transition">Login</a>
+                    <a href="cadastro.html" class="font-medium text-primary hover:underline">Cadastre-se</a>
+                </div>
             </div>
-            <!--Navegação-->
-            <nav class="hidden md:flex space-x-6">
-                <a href="novo-registro.html" class="font-medium hover:text-primary">Reportar</a>
-                <a href="#status" class="font-medium hover:text-primary">Registros</a>
-                <a href="#map" class="font-medium hover:text-primary">Mapa</a>
-            </nav>
-            <!--Botão de menu de navegação mobile-->
+            
             <button class="md:hidden">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -57,6 +64,7 @@
     </header>
 
     <main class="container mx-auto px-4 py-8">
+
         <!-- Seção com a tabela de registros -->
         <section id="status" class="mb-16">
             <h2 class="text-2xl font-bold text-gray-800 mb-6">Registros Recentes</h2>
@@ -64,11 +72,11 @@
                 <table class="min-w-full bg-white border border-gray-200">
                     <thead class="bg-gray-100">
                         <tr>
-                            <th class="py-3 px-4 text-left">REGISTRO</th>
-                            <th class="py-3 px-4 text-left">Problema</th>
-                            <th class="py-3 px-4 text-left">Data</th>
-                            <th class="py-3 px-4 text-left">Dias</th>
-                            <th class="py-3 px-4 text-left">Ações</th>
+                            <th scope="col" class="py-3 px-4 text-left">REGISTRO</th>
+                            <th scope="col" class="py-3 px-4 text-left">Problema</th>
+                            <th scope="col" class="py-3 px-4 text-left">Data</th>
+                            <th scope="col" class="py-3 px-4 text-left">Dias</th>
+                            <th scope="col" class="py-3 px-4 text-left">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -78,9 +86,7 @@
                             <td class="py-3 px-4">Buraco na via</td>
                             <td class="py-3 px-4">15/05/2024</td>
                             <td class="py-3 px-4" id="dias-registro">0 dias</td>
-                            <td class="py-3 px-4">
-                                <a href="detalhes.html?id=REG-20240001" class="text-primary hover:underline">Detalhes</a>
-                            </td>
+                            <td class="py-3 px-4"><a href="detalhes.html?id=REG-20240001" class="text-primary hover:underline">Detalhes</a></td>
                         </tr>
                     </tbody>
                 </table>
@@ -98,12 +104,15 @@
     <footer class="bg-gray-800 text-white py-12">
         <div class="container mx-auto px-4">
             <div class="text-center">
-                <p>© 2024 CityBase. Plataforma colaborativa.</p>
+                <p>© 2025 CityBase. Plataforma colaborativa.</p>
             </div>
         </div>
     </footer>
 
     <!--Script necessário para o mapa-->
+    <noscript>
+        <p>Ative o JavaScript para visualizar o mapa.</p>
+    </noscript>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         // Conversão de coordenadas
@@ -154,6 +163,23 @@
             `)
             .addTo(map);
         });
+    </script>
+    <script>
+        // Menu mobile
+        document.querySelector('.md\\:hidden').addEventListener('click', () => {
+            const nav = document.querySelector('.md\\:flex nav');
+            nav.classList.toggle('hidden');
+            nav.classList.toggle('flex');
+            nav.classList.toggle('flex-col');
+            nav.classList.toggle('absolute');
+            nav.classList.toggle('top-16');
+            nav.classList.toggle('left-0');
+            nav.classList.toggle('bg-white');
+            nav.classList.toggle('w-full');
+            nav.classList.toggle('p-4');
+            nav.classList.toggle('shadow-md');
+        });
+    
     </script>
 </body>
 </html>
